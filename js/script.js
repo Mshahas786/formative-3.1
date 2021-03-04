@@ -1,21 +1,26 @@
 $(document).ready(function (searchTerm) {
 
+    var searchTerm = "top-headlines?country=" + $("#country").val();
 
-    var searchTerm = $("search").val();
-    if (!searchTerm || searchTerm.length === 0 ) {
-        searchTerm = "apple"
-    }
+    console.log(searchTerm);
+    loadArticles(searchTerm,country);
 
-    loadArticles(searchTerm);
+    $("#searchBtn").on("click",function(){
+        searchTerm = "everything?q=" + $("#search").val();
+        loadArticles(searchTerm);
+        $("#search").html("");
+    });
 
-    $("#searchBtn").click(function(){
-        searchTerm = $("#search").val();
+    $("#country").on("click",function(){
+        searchTerm = "top-headlines?country=" + $("#country").val();
         loadArticles(searchTerm);
     });
 
-    function loadArticles(searchTerm){
+    console.log(searchTerm);
+
+    function loadArticles(searchTerm,){
         $.ajax({
-            url: "https://newsapi.org/v2/everything?q= " + searchTerm + " &sortBy=popularity&apiKey=2139dc76ae1b4dcc88f56c7096715f69",
+            url: "https://newsapi.org/v2/"+searchTerm+"&sortBy=popularity&apiKey=2139dc76ae1b4dcc88f56c7096715f69",
             type: "GET",
             dataType: "json",
             success: function (result) {
